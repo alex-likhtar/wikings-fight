@@ -31,7 +31,7 @@ func _physics_process(delta):
 		ATACK2:
 			pass
 		BLOCK:
-			pass
+			block_state()
 		SLIDE:
 			pass
 	
@@ -77,6 +77,11 @@ func move_state ():
 	elif direction == 1:
 		anim.flip_h = false 
 
+	if Input.is_action_pressed("block"):
+		state = BLOCK
+
 func block_state ():
+	velocity.x = 0
 	animPlayer.play("block")
-	animPlayer.animation_finished
+	if Input.is_action_just_released("block"):
+		state = MOVE
