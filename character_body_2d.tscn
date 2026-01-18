@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://dr6unthhr5jh4"]
+[gd_scene load_steps=77 format=3 uid="uid://dr6unthhr5jh4"]
 
 [ext_resource type="Script" uid="uid://0oqwx80x027e" path="res://character_body_2d.gd" id="1_44cfe"]
 [ext_resource type="Texture2D" uid="uid://dyxi0ta35lm61" path="res://Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="1_f50pn"]
@@ -7,8 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://1paotey118oa" path="res://Colour1/NoOutline/120x80_PNGSheets/_Jump.png" id="2_ghijl"]
 [ext_resource type="Texture2D" uid="uid://773ov0vqldl2" path="res://Colour1/NoOutline/120x80_PNGSheets/_Attack.png" id="3_1kp85"]
 [ext_resource type="Texture2D" uid="uid://cto3qko8ph6er" path="res://Colour1/NoOutline/120x80_PNGSheets/_Run.png" id="3_44cfe"]
+[ext_resource type="Texture2D" uid="uid://bdcndjea1xr7s" path="res://Colour1/NoOutline/120x80_PNGSheets/_CrouchTransition.png" id="4_qnedo"]
 [ext_resource type="Texture2D" uid="uid://dk86rsonq6wvg" path="res://Colour1/NoOutline/120x80_PNGSheets/_Hit.png" id="5_qnedo"]
-[ext_resource type="Texture2D" uid="uid://bshxi78uh4tkq" path="res://Colour1/NoOutline/120x80_PNGSheets/_TurnAround.png" id="5_wyqjk"]
 [ext_resource type="Texture2D" uid="uid://yr4pmf7ihqch" path="res://Colour1/NoOutline/120x80_PNGSheets/_Death.png" id="6_wyqjk"]
 [ext_resource type="Texture2D" uid="uid://b58g6xjlh44g3" path="res://Colour1/NoOutline/120x80_PNGSheets/_Slide.png" id="11_k85er"]
 
@@ -55,12 +55,8 @@ atlas = ExtResource("3_1kp85")
 region = Rect2(360, 0, 120, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_naw67"]
-atlas = ExtResource("1_f50pn")
+atlas = ExtResource("4_qnedo")
 region = Rect2(0, 0, 120, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fhkdx"]
-atlas = ExtResource("5_wyqjk")
-region = Rect2(120, 0, 120, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8icv6"]
 atlas = ExtResource("1_f50pn")
@@ -267,9 +263,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_naw67")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fhkdx")
 }],
 "loop": true,
 "name": &"block",
@@ -426,7 +419,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1hg8c")
 }],
-"loop": true,
+"loop": false,
 "name": &"slide",
 "speed": 6.0
 }]
@@ -527,7 +520,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_uw63b"]
-length = 0.5
+length = 0.25
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -536,10 +529,10 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0, 1]
+"values": [0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
