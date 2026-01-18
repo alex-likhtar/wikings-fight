@@ -19,15 +19,16 @@ var gravity = ProjectSettings.get_setting('physics/2d/default_gravity')
 var health = 100
 var gold = 0
 var state = MOVE
+var combo = false
 
 func _physics_process(delta):
 	match state:
 		MOVE:
 			move_state()
 		ATACK1:
-			pass
+			attack1_state()
 		ATACK2:
-			pass
+			attack2_state()
 		BLOCK:
 			block_state()
 		SLIDE:
@@ -56,11 +57,6 @@ func move_state():
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		animPlayer.play("jump")
-
-	# 2. Атака на ЛЕВУЮ кнопку мыши (attack)
-	if Input.is_action_just_pressed("attack"):
-		# Можно добавить переход в состояние атаки: state = ATACK1
-		print("Атака!")
 
 	# 3. Движение
 	var direction := Input.get_axis("ui_left", "ui_right")
@@ -97,6 +93,12 @@ func start_slide():
 		animPlayer.get_animation("slide").loop_mode = Animation.LOOP_NONE
 	# ------------------------------
 
+	if Input.is_action_just_pressed("attack"):
+		state = ATACK1
+
+
+
+
 func block_state():
 	velocity.x = 0
 	if animPlayer.current_animation != "block":
@@ -117,3 +119,22 @@ func slide_state():
 	# или имя анимации в коде не совпадает с редактором -> выход.
 	if animPlayer.current_animation != "slide":
 		state = MOVE
+
+
+func attack1_state():
+	if Input.is_action_just_pressed("attack") and combo == true:
+		state = ATACK2
+	velocity.x = 0
+	animPlayer.play("atack1")
+	await animPlayer.animation_finished
+	state = MOVE
+	
+func attack2_state():
+	animPlayer.play("atack2")
+	await animPlayer.animation_finished
+	state = MOVE
+	
+func combo1 ():
+	combo = true
+	await animPlayer.animation_finished
+	combo = false
