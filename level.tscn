@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://4kr6fg7wpd1s" path="res://oak_woods_v1.0/background/background_layer_3.png" id="3_n6hdu"]
 [ext_resource type="Texture2D" uid="uid://da4kcsl3o06ac" path="res://oak_woods_v1.0/oak_woods_tileset.png" id="4_km5ld"]
 [ext_resource type="PackedScene" uid="uid://dr6unthhr5jh4" path="res://character_body_2d.tscn" id="5_i2t4f"]
+[ext_resource type="PackedScene" uid="uid://dativt0kohcp0" path="res://shop.tscn" id="5_km5ld"]
 [ext_resource type="PackedScene" uid="uid://dkt7oh5rjtd4r" path="res://mobs/skeleton.tscn" id="6_1ainy"]
-[ext_resource type="PackedScene" uid="uid://bf4eltohr0htg" path="res://collictibes/gold.tscn" id="7_n6hdu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8cye3"]
 texture = ExtResource("4_km5ld")
@@ -524,6 +524,9 @@ position = Vector2(559, 322)
 scale = Vector2(3.740625, 3.7944443)
 texture = ExtResource("3_n6hdu")
 
+[node name="shop" parent="." instance=ExtResource("5_km5ld")]
+position = Vector2(144, 527)
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_2orkt")
 format = 2
@@ -532,12 +535,9 @@ layer_0/tile_data = PackedInt32Array(2359296, 0, 0, 2359297, 65536, 0, 2359298, 
 [node name="player" type="Node2D" parent="."]
 
 [node name="player" parent="player" instance=ExtResource("5_i2t4f")]
-position = Vector2(177, 516)
+position = Vector2(281, 553)
 
 [node name="Node2D" type="Node2D" parent="."]
-
-[node name="skeleton" parent="." instance=ExtResource("6_1ainy")]
-position = Vector2(500, 481)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -559,12 +559,6 @@ theme_override_font_sizes/font_size = 30
 text = "GOLD"
 script = SubResource("GDScript_n6hdu")
 
-[node name="skeleton2" parent="." instance=ExtResource("6_1ainy")]
-position = Vector2(668, 476)
-
-[node name="skeleton3" parent="." instance=ExtResource("6_1ainy")]
-position = Vector2(836, 475)
-
 [node name="skeleton4" parent="." instance=ExtResource("6_1ainy")]
 position = Vector2(1009, 478)
 
@@ -574,8 +568,5 @@ script = SubResource("GDScript_km5ld")
 [node name="Timer" type="Timer" parent="collictibes"]
 wait_time = 3.0
 autostart = true
-
-[node name="gold" parent="." instance=ExtResource("7_n6hdu")]
-position = Vector2(320, 546)
 
 [connection signal="timeout" from="collictibes/Timer" to="collictibes" method="_on_timer_timeout"]
