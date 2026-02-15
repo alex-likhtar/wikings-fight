@@ -1,137 +1,13 @@
 [gd_scene load_steps=14 format=3 uid="uid://cx4ah6k6vqk8l"]
 
 [ext_resource type="Texture2D" uid="uid://cklqi3kinu2j3" path="res://oak_woods_v1.0/background/background_layer_1.png" id="1_f2txt"]
+[ext_resource type="Script" uid="uid://b3phxn3whyjxr" path="res://level.gd" id="1_km5ld"]
 [ext_resource type="Texture2D" uid="uid://cnvsh4pog7v06" path="res://oak_woods_v1.0/background/background_layer_2.png" id="2_1ainy"]
 [ext_resource type="Texture2D" uid="uid://4kr6fg7wpd1s" path="res://oak_woods_v1.0/background/background_layer_3.png" id="3_n6hdu"]
 [ext_resource type="Texture2D" uid="uid://da4kcsl3o06ac" path="res://oak_woods_v1.0/oak_woods_tileset.png" id="4_km5ld"]
 [ext_resource type="PackedScene" uid="uid://dr6unthhr5jh4" path="res://character_body_2d.tscn" id="5_i2t4f"]
 [ext_resource type="PackedScene" uid="uid://dativt0kohcp0" path="res://shop.tscn" id="5_km5ld"]
 [ext_resource type="PackedScene" uid="uid://dkt7oh5rjtd4r" path="res://mobs/skeleton.tscn" id="6_1ainy"]
-
-[sub_resource type="GDScript" id="GDScript_i2t4f"]
-script/source = "extends Node2D
-
-@onready var sun_light = $DirectionalLight2D
-
-enum {
-	MORNING,
-	DAY,
-	EVENING,
-	NIGHT
-}
-
-var state = MORNING
-var time_elapsed = 0.0
-
-# --- ВРЕМЯ (в секундах) ---
-var dur_morning = 2.0 * 01.0 
-var dur_day = 4.0 * 01.0     
-var dur_evening = 1.5 * 01.0 
-var dur_night = 3.5 * 01.0   
-
-# --- НАСТРОЙКИ ЦВЕТА И СВЕТА ---
-
-# УТРО:
-# Приглушенный теплый цвет, темнее дня.
-var color_morning = Color(\"dcbfa6\") 
-var energy_morning = 0.4 
-
-# ДЕНЬ:
-# Желтовато-белый (Cream). Не белый! Создает уютную атмосферу.
-# Яркость 0.65 — не слепит, но все хорошо видно.
-var color_day = Color(\"fffbd6\")
-var energy_day = 0.65 
-
-# ВЕЧЕР:
-# Уход в розовато-серые сумерки.
-var color_evening = Color(\"bda0a8\")
-var energy_evening = 0.5
-
-# НОЧЬ:
-# Почти полная темнота. Глубокий черно-синий оттенок.
-# 0.12 — очень темно, только чтобы не врезаться в стены.
-var color_night = Color(\"0b0d12\") 
-var energy_night = 0.12
-
-func _ready():
-	apply_light_settings(0.0)
-	print(\"Старт: УТРО\")
-
-func _process(delta):
-	time_elapsed += delta
-	
-	var duration = get_current_duration()
-	
-	if time_elapsed >= duration:
-		time_elapsed = 0.0
-		switch_to_next_state()
-		duration = get_current_duration() 
-	
-	# Плавный переход от 0 до 1 внутри текущей фазы
-	var fraction = time_elapsed / duration
-	apply_light_settings(fraction)
-
-func apply_light_settings(fraction: float):
-	if !sun_light: return
-	
-	var start_c: Color
-	var end_c: Color
-	var start_e: float
-	var end_e: float
-	
-	match state:
-		MORNING:
-			# Утро -> День
-			start_c = color_morning
-			end_c = color_day
-			start_e = energy_morning
-			end_e = energy_day
-		DAY:
-			# День -> Вечер
-			start_c = color_day
-			end_c = color_evening
-			start_e = energy_day
-			end_e = energy_evening
-		EVENING:
-			# Вечер -> Ночь
-			start_c = color_evening
-			end_c = color_night
-			start_e = energy_evening
-			end_e = energy_night
-		NIGHT:
-			# Ночь -> Утро
-			start_c = color_night
-			end_c = color_morning
-			start_e = energy_night
-			end_e = energy_morning
-
-	# Смешиваем цвета и яркость
-	sun_light.color = start_c.lerp(end_c, fraction)
-	sun_light.energy = lerp(start_e, end_e, fraction)
-
-func get_current_duration():
-	match state:
-		MORNING: return dur_morning
-		DAY: return dur_day
-		EVENING: return dur_evening
-		NIGHT: return dur_night
-	return 1.0
-
-func switch_to_next_state():
-	match state:
-		MORNING:
-			state = DAY
-			print(\">>> ДЕНЬ (Теплый свет)\")
-		DAY:
-			state = EVENING
-			print(\">>> ВЕЧЕР (Темнеет)\")
-		EVENING:
-			state = NIGHT
-			print(\">>> НОЧЬ (Глубокая тьма)\")
-		NIGHT:
-			state = MORNING
-			print(\">>> УТРО (Рассвет)\")
-"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8cye3"]
 texture = ExtResource("4_km5ld")
@@ -619,7 +495,7 @@ func _on_timer_timeout():
 "
 
 [node name="level" type="Node2D"]
-script = SubResource("GDScript_i2t4f")
+script = ExtResource("1_km5ld")
 
 [node name="bg" type="ParallaxBackground" parent="."]
 layer = -1
@@ -650,6 +526,8 @@ motion_mirroring = Vector2(1197, 0)
 position = Vector2(559, 322)
 scale = Vector2(3.740625, 3.7944443)
 texture = ExtResource("3_n6hdu")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="bg"]
 
 [node name="shop" parent="." instance=ExtResource("5_km5ld")]
 position = Vector2(144, 527)
@@ -698,10 +576,14 @@ autostart = true
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
 energy = 0.2
+blend_mode = 2
 range_layer_min = -1
+height = 0.1
 
 [node name="DayNight" type="Timer" parent="."]
-wait_time = 20.0
+wait_time = 180.0
 autostart = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
 
 [connection signal="timeout" from="collictibes/Timer" to="collictibes" method="_on_timer_timeout"]
