@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cx4ah6k6vqk8l"]
+[gd_scene load_steps=16 format=3 uid="uid://cx4ah6k6vqk8l"]
 
 [ext_resource type="Texture2D" uid="uid://cklqi3kinu2j3" path="res://oak_woods_v1.0/background/background_layer_1.png" id="1_f2txt"]
 [ext_resource type="Script" uid="uid://b3phxn3whyjxr" path="res://level.gd" id="1_km5ld"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dativt0kohcp0" path="res://shop.tscn" id="5_km5ld"]
 [ext_resource type="PackedScene" uid="uid://dkt7oh5rjtd4r" path="res://mobs/skeleton.tscn" id="6_1ainy"]
 [ext_resource type="Texture2D" uid="uid://cxb4qki88qpm6" path="res://removed_bg.png" id="9_i2t4f"]
+[ext_resource type="PackedScene" uid="uid://u7yfe14ey6vm" path="res://mobs/mushrom.tscn" id="10_8cye3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8cye3"]
 texture = ExtResource("4_km5ld")
@@ -565,6 +566,21 @@ theme_override_font_sizes/font_size = 30
 text = "GOLD"
 script = SubResource("GDScript_n6hdu")
 
+[node name="NewDayLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 80
+horizontal_alignment = 1
+
 [node name="skeleton4" parent="." instance=ExtResource("6_1ainy")]
 position = Vector2(1009, 478)
 
@@ -607,5 +623,10 @@ scale = Vector2(0.20746928, 0.18815106)
 color = Color(0.972549, 0.8, 0.6666667, 0.45490196)
 energy = 3.5
 texture = ExtResource("9_i2t4f")
+
+[node name="mobs" type="Node2D" parent="."]
+
+[node name="mushroom" parent="mobs" instance=ExtResource("10_8cye3")]
+position = Vector2(502, 551)
 
 [connection signal="timeout" from="collictibes/Timer" to="collictibes" method="_on_timer_timeout"]
