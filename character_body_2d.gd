@@ -122,8 +122,17 @@ func move_state():
 
 	if direction == -1:
 		anim.flip_h = true
+		anim.position.x = -12
+		# Отражаем хитбокс влево. Замени "AttackArea" на точное имя твоего узла атаки!
+		if has_node("AttackArea"):
+			$AttackArea.scale.x = -1
+
 	elif direction == 1:
 		anim.flip_h = false
+		anim.position.x = 0
+		# Возвращаем хитбокс вправо
+		if has_node("AttackArea"):
+			$AttackArea.scale.x = 1
 
 	if Input.is_action_just_pressed("block"):
 		if velocity.x == 0:

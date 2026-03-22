@@ -140,12 +140,13 @@ scale = Vector2(0.6808333, 0.66583335)
 sprite_frames = SubResource("SpriteFrames_88wlq")
 animation = &"death"
 autoplay = "idle"
+frame = 5
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_427lw")
 
 [node name="detector" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detector"]
 shape = SubResource("CircleShape2D_nbc7u")

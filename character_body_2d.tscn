@@ -830,16 +830,11 @@ _data = {
 &"slide": SubResource("Animation_05yte")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_44cfe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_186t8")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(4, -22)
-sprite_frames = SubResource("SpriteFrames_f50pn")
-animation = &"idle"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.4, 2.4)
@@ -854,3 +849,8 @@ drag_horizontal_enabled = true
 libraries = {
 &"": SubResource("AnimationLibrary_qnedo")
 }
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(4, -22)
+sprite_frames = SubResource("SpriteFrames_f50pn")
+animation = &"idle"

@@ -582,7 +582,7 @@ theme_override_font_sizes/font_size = 80
 horizontal_alignment = 1
 
 [node name="skeleton4" parent="." instance=ExtResource("6_1ainy")]
-position = Vector2(1009, 478)
+position = Vector2(919, 493)
 
 [node name="collictibes" type="Node2D" parent="."]
 script = SubResource("GDScript_km5ld")
@@ -627,6 +627,6 @@ texture = ExtResource("9_i2t4f")
 [node name="mobs" type="Node2D" parent="."]
 
 [node name="mushroom" parent="mobs" instance=ExtResource("10_8cye3")]
-position = Vector2(502, 551)
+position = Vector2(596, 548)
 
 [connection signal="timeout" from="collictibes/Timer" to="collictibes" method="_on_timer_timeout"]
