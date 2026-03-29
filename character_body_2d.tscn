@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://dr6unthhr5jh4"]
+[gd_scene load_steps=80 format=3 uid="uid://dr6unthhr5jh4"]
 
 [ext_resource type="Script" uid="uid://0oqwx80x027e" path="res://character_body_2d.gd" id="1_44cfe"]
 [ext_resource type="Texture2D" uid="uid://dyxi0ta35lm61" path="res://Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="1_f50pn"]
@@ -830,6 +830,9 @@ _data = {
 &"slide": SubResource("Animation_05yte")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_qnedo"]
+radius = 943.97986
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_44cfe")
 
@@ -840,7 +843,7 @@ shape = SubResource("CapsuleShape2D_186t8")
 zoom = Vector2(2.4, 2.4)
 process_callback = 0
 limit_left = 0
-limit_right = 1250
+limit_right = 2320
 limit_bottom = 675
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
@@ -854,3 +857,9 @@ libraries = {
 position = Vector2(4, -22)
 sprite_frames = SubResource("SpriteFrames_f50pn")
 animation = &"idle"
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+
+[node name="SpawnForbiddenZone" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_qnedo")

@@ -25,7 +25,6 @@ func _physics_process(delta):
 
 			# Проигрываем run, только если не проигрывается анимация смерти
 			if anim.animation != "death":
-				print('run')
 				anim.play("run")
 		else:
 			# ОСТАНОВКА (когда игрок вышел из детектора или его нет)
