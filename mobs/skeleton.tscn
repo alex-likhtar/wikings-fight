@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dkt7oh5rjtd4r"]
+[gd_scene format=3 uid="uid://dkt7oh5rjtd4r"]
 
 [ext_resource type="Texture2D" uid="uid://c430uqhw7md6p" path="res://oak_woods_v1.0/Monsters_Creatures_Fantasy/Skeleton/Take Hit.png" id="1_6m03w"]
 [ext_resource type="Script" uid="uid://2iynwvm4bpij" path="res://mobs/skeleton.gd" id="1_ve74g"]
@@ -131,10 +131,10 @@ radius = 101.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ve74g"]
 size = Vector2(16, 2.75)
 
-[node name="skeleton" type="CharacterBody2D"]
+[node name="skeleton" type="CharacterBody2D" unique_id=1780699216]
 script = ExtResource("1_ve74g")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=290029827]
 position = Vector2(-1.0000002, -0.99999994)
 scale = Vector2(0.6808333, 0.66583335)
 sprite_frames = SubResource("SpriteFrames_88wlq")
@@ -143,23 +143,23 @@ autoplay = "idle"
 frame = 5
 frame_progress = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1102752484]
 shape = SubResource("CapsuleShape2D_427lw")
 
-[node name="detector" type="Area2D" parent="."]
+[node name="detector" type="Area2D" parent="." unique_id=1829935489]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="detector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detector" unique_id=2042864836]
 shape = SubResource("CircleShape2D_nbc7u")
 
-[node name="death" type="Area2D" parent="."]
+[node name="death" type="Area2D" parent="." unique_id=1285632720]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="death"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="death" unique_id=1901509248]
 position = Vector2(0, -15)
 shape = SubResource("RectangleShape2D_ve74g")
 
-[node name="death2" type="Area2D" parent="."]
+[node name="death2" type="Area2D" parent="." unique_id=1114990823]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="death2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="death2" unique_id=500744108]
 shape = SubResource("RectangleShape2D_ve74g")
 
 [connection signal="body_entered" from="detector" to="." method="_on_detector_body_entered"]

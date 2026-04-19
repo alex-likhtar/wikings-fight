@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://u7yfe14ey6vm"]
+[gd_scene format=3 uid="uid://u7yfe14ey6vm"]
 
 [ext_resource type="Script" uid="uid://cbw36vs723ux7" path="res://mobs/mushroom.gd" id="1_81m05"]
 [ext_resource type="Texture2D" uid="uid://covn0gejws5yc" path="res://oak_woods_v1.0/Monsters_Creatures_Fantasy/Mushroom/Attack.png" id="1_k0fk1"]
@@ -393,36 +393,34 @@ size = Vector2(21.5, 4)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ktfg8"]
 size = Vector2(20, 6)
 
-[node name="mushroom" type="CharacterBody2D"]
+[node name="mushroom" type="CharacterBody2D" unique_id=2032795790]
 script = ExtResource("1_81m05")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=703460823]
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_cn1mi")
 animation = &"run"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=260329457]
 shape = SubResource("CapsuleShape2D_swu6o")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_0bnw2")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=953222319]
+libraries/ = SubResource("AnimationLibrary_0bnw2")
 
-[node name="detector" type="Area2D" parent="."]
+[node name="detector" type="Area2D" parent="." unique_id=1209238763]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="detector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detector" unique_id=702531919]
 shape = SubResource("CircleShape2D_81m05")
 
-[node name="death" type="Area2D" parent="."]
+[node name="death" type="Area2D" parent="." unique_id=612801812]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="death"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="death" unique_id=1939591835]
 position = Vector2(0.75, -18)
 shape = SubResource("RectangleShape2D_sdhva")
 
-[node name="death2" type="Area2D" parent="."]
+[node name="death2" type="Area2D" parent="." unique_id=1167477934]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="death2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="death2" unique_id=2066057681]
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_ktfg8")
 

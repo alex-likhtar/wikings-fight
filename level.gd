@@ -1,24 +1,33 @@
 extends Node2D
 
 # --- НАСТРОЙКИ СПАВНА ---
-@export var mushroom_scene: PackedScene = preload("res://mobs/mushrom.tscn")
+@export var mushroom_scene: PackedScene = preload("res://mobs/mushroom.tscn")
 @export var skeleton_scene: PackedScene = preload("res://mobs/skeleton.tscn")
+# Добавили префаб монеты
+@export var gold_scene: PackedScene = preload("res://collictibes/gold.tscn")
 
-@onready var forbidden_zone = $player/SpawnForbiddenZone
+@onready var forbidden_zone = $player/player/Area2D/SpawnForbiddenZone
 @onready var player = $player
 @onready var mobs_container = $mobs
 
 var spawn_timer: Timer
 
-# Дистанции спавна
+# Дистанции спавна мобов
 var min_spawn_distance = 500.0
 var max_spawn_distance = 1300.0
 
-# Лимиты и задержки
+# Границы спавна монет (настрой под размер своей карты по оси X)
+var min_coin_x = 100.0
+var max_coin_x = 3500.0
+
+# Лимиты и задержки мобов
 var current_max_mobs = 0
 var mobs_spawned_in_phase = 0
 var min_spawn_delay = 2.0
 var max_spawn_delay = 10.0
+
+# Расписание монет
+var daily_gold_times = []
 
 # Высота, с которой "прощупываем" землю (чуть выше твоих 576)
 const SPAWN_CHECK_HEIGHT = 500.0
@@ -89,7 +98,10 @@ func start_phase(phase: Phase):
 	mobs_spawned_in_phase = 0
 
 	match current_phase:
-		Phase.MORNING: current_max_mobs = 0
+		Phase.MORNING:
+			current_max_mobs = 0
+			# НОВОЕ: Утром планируем расписание монет на все сутки
+			plan_daily_gold()
 		Phase.DAY: current_max_mobs = randi_range(2, 8)
 		Phase.EVENING: current_max_mobs = randi_range(10, 25)
 		Phase.NIGHT: pass
@@ -106,7 +118,7 @@ func set_random_spawn_timer():
 	if spawn_timer:
 		spawn_timer.start(randf_range(min_spawn_delay, max_spawn_delay))
 
-# --- ЛОГИКА СПАВНА С ПРОВЕРКОЙ ТЕРРЕЙНА ---
+# --- ЛОГИКА СПАВНА МОБОВ С ПРОВЕРКОЙ ТЕРРЕЙНА ---
 
 func _on_spawn_timer_timeout():
 	if mobs_spawned_in_phase < current_max_mobs:
@@ -136,7 +148,7 @@ func attempt_spawn():
 func check_for_solid_ground(x_pos: float) -> Vector2:
 	var space_state = get_world_2d().direct_space_state
 
-	# Пускаем луч из точки чуть выше земли (500) до точки ниже земли (700)
+	# Пускаем луч из точки чуть выше земли (500) до точки ниже земли (750)
 	var ray_start = Vector2(x_pos, SPAWN_CHECK_HEIGHT)
 	var ray_end = Vector2(x_pos, 750)
 
@@ -175,7 +187,7 @@ func is_x_in_forbidden_zone(x_pos: float) -> bool:
 		radius = shape.shape.size.x / 2
 	return abs(x_pos - zone_x) < radius
 
-# --- UI И ВИЗУАЛ (БЕЗ ИЗМЕНЕНИЙ) ---
+# --- UI И ВИЗУАЛ (ТВОИ ОРИГИНАЛЬНЫЕ ФУНКЦИИ) ---
 
 func update_ui_text():
 	if day_label_ui: day_label_ui.text = "ДЕНЬ: " + str(day_count)
@@ -210,3 +222,58 @@ func apply_phase_settings(instant: bool):
 		tween.tween_property(sun, "energy", target_energy, duration)
 		for light in lights:
 			if light: tween.tween_property(light, "energy", target_light_energy, duration)
+
+# =========================================================
+# --- НОВАЯ СИСТЕМА СПАВНА МОНЕТ (ДОБАВЛЕНО В КОНЕЦ) ---
+# =========================================================
+
+func plan_daily_gold():
+	daily_gold_times.clear()
+
+	# Рандомное количество от 10 до 50
+	var count = randi_range(10, 50)
+
+	# Считаем общую длину суток (из твоих констант это 60+120+60+120 = 360 сек)
+	var total_day_time = 0.0
+	for p in PHASE_DURATION:
+		total_day_time += PHASE_DURATION[p]
+
+	# Создаем тайминги
+	for i in range(count):
+		daily_gold_times.append(randf_range(0, total_day_time))
+
+	daily_gold_times.sort()
+	_spawn_gold_step(0)
+
+func _spawn_gold_step(index: int):
+	if index >= daily_gold_times.size():
+		return
+
+	var wait_time = daily_gold_times[index]
+	if index > 0:
+		wait_time -= daily_gold_times[index - 1]
+
+	await get_tree().create_timer(wait_time).timeout
+
+	spawn_one_coin()
+	_spawn_gold_step(index + 1)
+
+func spawn_one_coin():
+	# Ищем место для спавна монеты в пределах всей карты
+	for i in range(15): # Даем 15 попыток на поиск земли
+		var random_x = randf_range(min_coin_x, max_coin_x)
+
+		# Используем твою же функцию поиска земли
+		var ground_pos = check_for_solid_ground(random_x)
+
+		if ground_pos != Vector2.ZERO:
+			var gold_inst = gold_scene.instantiate()
+			# Ставим чуть выше точки касания луча, чтобы не провалилась
+			gold_inst.global_position = ground_pos - Vector2(0, 15)
+
+			# Узел collictibes есть у тебя в level.tscn, добавляем туда
+			if has_node("collictibes"):
+				$collictibes.add_child(gold_inst)
+			else:
+				add_child(gold_inst)
+			break
